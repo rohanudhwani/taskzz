@@ -33,18 +33,22 @@ fun TaskListScreen(modifier: Modifier = Modifier) {
     val taskList by taskViewModel.allTasks.observeAsState(listOf()) // Observe the task list
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Task List
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
             items(taskList) { task ->
-                TaskItem(task = task)
+                TaskItem(
+                    task = task,
+                    onDeleteTask = { taskToDelete ->
+                        taskViewModel.delete(taskToDelete) // Use ViewModel to delete the task
+                    }
+                )
             }
         }
 
-        // Floating Action Button for adding tasks, placed at the bottom center
+        // Floating Action Button for adding tasks
         FloatingActionButton(
             onClick = {
                 val intent = Intent(context, AddEditTaskActivity::class.java)
@@ -52,7 +56,7 @@ fun TaskListScreen(modifier: Modifier = Modifier) {
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(16.dp) // Padding from the bottom and sides
+                .padding(16.dp)
         ) {
             Icon(Icons.Default.Add, contentDescription = "Add Task")
         }
