@@ -1,6 +1,5 @@
 package com.rohan.taskz.ui
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,11 +10,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.rohan.taskzz.model.Task
@@ -30,6 +25,7 @@ fun TaskForm(
     var dueDate by remember { mutableStateOf("") }
     var priority by remember { mutableStateOf(0) }
     var completionStatus by remember { mutableStateOf(0f) }
+    var isDropdownExpanded by remember { mutableStateOf(false) } // Dropdown expanded state
 
     Column(
         modifier = modifier
@@ -37,6 +33,7 @@ fun TaskForm(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        // Title TextField
         TextField(
             value = title,
             onValueChange = { title = it },
@@ -44,6 +41,7 @@ fun TaskForm(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Description TextField
         TextField(
             value = description,
             onValueChange = { description = it },
@@ -51,6 +49,7 @@ fun TaskForm(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Due Date TextField
         TextField(
             value = dueDate,
             onValueChange = { dueDate = it },
@@ -58,14 +57,23 @@ fun TaskForm(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Priority Dropdown
+        // Priority DropdownMenu
+        Button(
+            onClick = { isDropdownExpanded = true },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Priority: $priority")
+        }
         DropdownMenu(
-            expanded = true, // Simplified logic for example
-            onDismissRequest = { /* Dismiss logic here */ }
+            expanded = isDropdownExpanded,
+            onDismissRequest = { isDropdownExpanded = false }
         ) {
             (0..3).forEach { index ->
                 DropdownMenuItem(
-                    onClick = { priority = index },
+                    onClick = {
+                        priority = index
+                        isDropdownExpanded = false
+                    },
                     text = { Text(text = "Priority: $index") }
                 )
             }
@@ -79,9 +87,9 @@ fun TaskForm(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Save Task Button
         Button(
             onClick = {
-                // Create a new task and pass it to onSaveTask callback
                 val task = Task(
                     title = title,
                     description = description,
