@@ -19,6 +19,7 @@ import com.rohan.taskzz.ui.theme.TaskzTheme
 import androidx.compose.ui.Modifier
 import com.rohan.taskz.ui.TaskForm
 import com.rohan.taskzz.model.Task
+import java.util.Date
 
 class AddEditTaskActivity : ComponentActivity() {
 
@@ -32,7 +33,12 @@ class AddEditTaskActivity : ComponentActivity() {
         val taskId = intent.getIntExtra("taskId", -1)
         val taskTitle = intent.getStringExtra("taskTitle") ?: ""
         val taskDescription = intent.getStringExtra("taskDescription") ?: ""
-        val taskDueDate = intent.getStringExtra("taskDueDate") ?: ""
+        // Get the due date from the Intent, defaulting to today's date if not set
+        val taskDueDate: Date = if (intent.getLongExtra("taskDueDate", 0L) == 0L) {
+            Date() // Use today's date if no valid date was provided
+        } else {
+            Date(intent.getLongExtra("taskDueDate", 0L))
+        }
         val taskPriority = intent.getIntExtra("taskPriority", 0)
         val taskCompletionStatus = intent.getIntExtra("taskCompletionStatus", 0)
 

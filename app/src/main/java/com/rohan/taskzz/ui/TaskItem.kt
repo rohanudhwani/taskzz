@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rohan.taskzz.common.Priority
 import com.rohan.taskzz.model.Task
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun TaskItem(
@@ -58,7 +60,7 @@ fun TaskItem(
                             putExtra("taskId", taskId)
                             putExtra("taskTitle", taskTitle)
                             putExtra("taskDescription", taskDescription)
-                            putExtra("taskDueDate", taskDueDate)
+                            putExtra("taskDueDate", taskDueDate.time)
                             putExtra("taskPriority", taskPriority)
                             putExtra("taskCompletionStatus", taskCompletionStatus)
                         }
@@ -71,10 +73,11 @@ fun TaskItem(
         Column {
             val priorityText =
                 Priority.entries.find { it.level == taskPriority }?.name ?: "Unknown"
+            val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
             Text(text = "ID: $taskId")
             Text(text = "Title: $taskTitle")
             Text(text = "Description: $taskDescription")
-            Text(text = "Due Date: $taskDueDate")
+            Text(text = "Due Date: ${dateFormat.format(taskDueDate)}")
             Text(text = "Priority: $priorityText")
             Text(text = "Completion: $taskCompletionStatus%")
         }

@@ -1,5 +1,6 @@
 package com.rohan.taskz.ui
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,9 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.rohan.taskzz.common.Priority
 import com.rohan.taskzz.model.Task
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun TaskForm(
@@ -22,7 +28,7 @@ fun TaskForm(
     taskId: Int,
     initialTitle: String = "",
     initialDescription: String = "",
-    initialDueDate: String = "",
+    initialDueDate: Date = Date(),
     initialPriority: Int = 0,
     initialCompletionStatus: Int = 0,
     onSaveTask: (Task) -> Unit
@@ -34,6 +40,29 @@ fun TaskForm(
     var priority by remember { mutableStateOf(initialPriority) }
     var completionStatus by remember { mutableStateOf(initialCompletionStatus) }
     var isDropdownExpanded by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    // Date formatter
+    val dateFormatter = remember {
+        SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+    }
+
+    calendar.time = dueDate
+
+    // Due Date Picker Dialog
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            // Update the calendar with the selected date
+            calendar.set(year, month, dayOfMonth)
+            dueDate = calendar.time
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
 
     Column(
         modifier = modifier
@@ -61,6 +90,13 @@ fun TaskForm(
         )
 
         // Due Date TextField
+        Button(
+            onClick = { datePickerDialog.show() },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Due Date: ${dateFormatter.format(dueDate)}")
+        }
+
         // Priority DropdownMenu
         Button(
             onClick = { isDropdownExpanded = true },
