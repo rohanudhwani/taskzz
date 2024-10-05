@@ -27,7 +27,14 @@ class AddEditTaskActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        taskViewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
+
+        val taskId = intent.getIntExtra("taskId", -1)
+        val taskTitle = intent.getStringExtra("taskTitle") ?: ""
+        val taskDescription = intent.getStringExtra("taskDescription") ?: ""
+        val taskDueDate = intent.getStringExtra("taskDueDate") ?: ""
+        val taskPriority = intent.getIntExtra("taskPriority", 0)
+        val taskCompletionStatus = intent.getIntExtra("taskCompletionStatus", 0)
 
         setContent {
             TaskzTheme {
@@ -37,7 +44,10 @@ class AddEditTaskActivity : ComponentActivity() {
                             title = { Text("Add/Edit Task") },
                             navigationIcon = {
                                 IconButton(onClick = { finish() }) {
-                                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                                    Icon(
+                                        Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
                                 }
                             }
                         )
@@ -45,10 +55,22 @@ class AddEditTaskActivity : ComponentActivity() {
                     content = { innerPadding ->
                         TaskForm(
                             modifier = Modifier.padding(innerPadding),
-                            onSaveTask = { task: Task ->
-                                // Save the task to the ViewModel and database
-                                taskViewModel.insert(task)
-                                finish()  // Return to the previous screen
+                            taskId = taskId,
+                            initialTitle = taskTitle,
+                            initialDescription = taskDescription,
+                            initialDueDate = taskDueDate,
+                            initialPriority = taskPriority,
+                            initialCompletionStatus = taskCompletionStatus,
+                            onSaveTask = { task ->
+                                if (taskId != -1) {
+                                    // Update existing task in ViewModel and finish
+//                                    task.id = taskId.toInt()
+                                    taskViewModel.update(task)
+                                } else {
+                                    // Insert new task
+                                    taskViewModel.insert(task)
+                                }
+                                finish() // Return to the previous screen
                             }
                         )
                     }

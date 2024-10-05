@@ -18,14 +18,21 @@ import com.rohan.taskzz.model.Task
 @Composable
 fun TaskForm(
     modifier: Modifier = Modifier,
+    taskId: Int? = null,
+    initialTitle: String = "",
+    initialDescription: String = "",
+    initialDueDate: String = "",
+    initialPriority: Int = 0,
+    initialCompletionStatus: Int = 0,
     onSaveTask: (Task) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var dueDate by remember { mutableStateOf("") }
-    var priority by remember { mutableStateOf(0) }
-    var completionStatus by remember { mutableStateOf(0f) }
-    var isDropdownExpanded by remember { mutableStateOf(false) } // Dropdown expanded state
+    // Use initial values passed into the composable
+    var title by remember { mutableStateOf(initialTitle) }
+    var description by remember { mutableStateOf(initialDescription) }
+    var dueDate by remember { mutableStateOf(initialDueDate) }
+    var priority by remember { mutableStateOf(initialPriority) }
+    var completionStatus by remember { mutableStateOf(initialCompletionStatus) }
+    var isDropdownExpanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -33,6 +40,9 @@ fun TaskForm(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+
+        Text(text = "ID: $taskId")
+
         // Title TextField
         TextField(
             value = title,
@@ -79,10 +89,11 @@ fun TaskForm(
             }
         }
 
+        Text(text = "Completion Status: ${completionStatus}%")
         // Completion Status Slider
         Slider(
-            value = completionStatus,
-            onValueChange = { completionStatus = it },
+            value = completionStatus.toFloat(),
+            onValueChange = { completionStatus = it.toInt() },
             valueRange = 0f..100f,
             modifier = Modifier.fillMaxWidth()
         )
@@ -97,11 +108,12 @@ fun TaskForm(
                     priority = priority,
                     completionStatus = completionStatus
                 )
+                if (taskId != null && taskId != -1) task.id = taskId.toInt()
                 onSaveTask(task)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Save Task")
+            Text(if (taskId != null && taskId != -1) "Update Task" else "Save Task")
         }
     }
 }

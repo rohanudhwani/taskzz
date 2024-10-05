@@ -1,5 +1,6 @@
 package com.rohan.taskzz.ui
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rohan.taskzz.model.Task
@@ -27,6 +29,7 @@ fun TaskItem(
     onDeleteTask: (Task) -> Unit // Callback to handle the deletion
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     // Handle long press to show delete dialog
     Box(
@@ -38,12 +41,25 @@ fun TaskItem(
                 detectTapGestures(
                     onLongPress = {
                         showDeleteDialog = true
+                    },
+                    onTap = {
+                        // Navigate to AddEditTaskActivity with pre-filled task data on single tap
+                        val intent = Intent(context, AddEditTaskActivity::class.java).apply {
+                            putExtra("taskId", task.id)
+                            putExtra("taskTitle", task.title)
+                            putExtra("taskDescription", task.description)
+                            putExtra("taskDueDate", task.dueDate)
+                            putExtra("taskPriority", task.priority)
+                            putExtra("taskCompletionStatus", task.completionStatus)
+                        }
+                        context.startActivity(intent)
                     }
                 )
             }
             .padding(16.dp)
     ) {
         Column {
+            Text(text = "ID: ${task.id}")
             Text(text = "Title: ${task.title}")
             Text(text = "Description: ${task.description}")
             Text(text = "Due Date: ${task.dueDate}")
