@@ -13,12 +13,13 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.rohan.taskzz.common.Priority
 import com.rohan.taskzz.model.Task
 
 @Composable
 fun TaskForm(
     modifier: Modifier = Modifier,
-    taskId: Int? = null,
+    taskId: Int,
     initialTitle: String = "",
     initialDescription: String = "",
     initialDueDate: String = "",
@@ -60,34 +61,32 @@ fun TaskForm(
         )
 
         // Due Date TextField
-        TextField(
-            value = dueDate,
-            onValueChange = { dueDate = it },
-            label = { Text("Due Date") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
         // Priority DropdownMenu
         Button(
             onClick = { isDropdownExpanded = true },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Priority: $priority")
+            // Display the current priority name
+            val currentPriority = Priority.entries.find { it.level == priority }?.name ?: "Unknown"
+            Text("Priority: $currentPriority")
         }
+
         DropdownMenu(
             expanded = isDropdownExpanded,
             onDismissRequest = { isDropdownExpanded = false }
         ) {
-            (0..3).forEach { index ->
+            // Iterate over the Priority enum values instead of indices
+            Priority.entries.forEach { priorityEnum ->
                 DropdownMenuItem(
                     onClick = {
-                        priority = index
+                        priority = priorityEnum.level // Set the priority level
                         isDropdownExpanded = false
                     },
-                    text = { Text(text = "Priority: $index") }
+                    text = { Text(text = priorityEnum.name) } // Display the enum name
                 )
             }
         }
+
 
         Text(text = "Completion Status: ${completionStatus}%")
         // Completion Status Slider
@@ -102,18 +101,18 @@ fun TaskForm(
         Button(
             onClick = {
                 val task = Task(
+                    id = taskId,
                     title = title,
                     description = description,
                     dueDate = dueDate,
                     priority = priority,
                     completionStatus = completionStatus
                 )
-                if (taskId != null && taskId != -1) task.id = taskId.toInt()
                 onSaveTask(task)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(if (taskId != null && taskId != -1) "Update Task" else "Save Task")
+            Text(if (taskId != -1) "Update Task" else "Save Task")
         }
     }
 }

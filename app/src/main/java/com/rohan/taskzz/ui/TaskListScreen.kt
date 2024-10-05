@@ -29,7 +29,8 @@ import com.rohan.taskzz.model.TaskViewModel
 @Composable
 fun TaskListScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val taskViewModel: TaskViewModel = viewModel(factory = ViewModelProvider.AndroidViewModelFactory(context.applicationContext as Application)) // Get the ViewModel
+    val taskViewModel: TaskViewModel =
+        viewModel(factory = ViewModelProvider.AndroidViewModelFactory(context.applicationContext as Application)) // Get the ViewModel
     val taskList by taskViewModel.allTasks.observeAsState(listOf()) // Observe the task list
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -38,7 +39,8 @@ fun TaskListScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(taskList) { task ->
+            println("taskList rohan123 " + taskList)
+            items(taskList, key = { task -> task.id }) { task ->
                 TaskItem(
                     task = task,
                     onDeleteTask = { taskToDelete ->

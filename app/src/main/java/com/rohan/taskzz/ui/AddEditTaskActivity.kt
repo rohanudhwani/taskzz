@@ -41,7 +41,7 @@ class AddEditTaskActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Add/Edit Task") },
+                            title = { Text(if (taskId != -1) "Edit Task" else "Add Task") },
                             navigationIcon = {
                                 IconButton(onClick = { finish() }) {
                                     Icon(
@@ -63,12 +63,11 @@ class AddEditTaskActivity : ComponentActivity() {
                             initialCompletionStatus = taskCompletionStatus,
                             onSaveTask = { task ->
                                 if (taskId != -1) {
-                                    // Update existing task in ViewModel and finish
-//                                    task.id = taskId.toInt()
                                     taskViewModel.update(task)
                                 } else {
+                                    val newTask = task.copy(id = 0)
                                     // Insert new task
-                                    taskViewModel.insert(task)
+                                    taskViewModel.insert(newTask)
                                 }
                                 finish() // Return to the previous screen
                             }

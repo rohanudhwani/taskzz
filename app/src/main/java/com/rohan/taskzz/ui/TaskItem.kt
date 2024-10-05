@@ -21,6 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rohan.taskzz.common.Priority
 import com.rohan.taskzz.model.Task
 
 @Composable
@@ -30,6 +31,7 @@ fun TaskItem(
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    println("TaskItem initialized rohan123 with priority: ${task.id} :  ${task.priority}")
 
     // Handle long press to show delete dialog
     Box(
@@ -43,6 +45,7 @@ fun TaskItem(
                         showDeleteDialog = true
                     },
                     onTap = {
+                        println("Priority rohan123 in TaskItem " + task.priority)
                         // Navigate to AddEditTaskActivity with pre-filled task data on single tap
                         val intent = Intent(context, AddEditTaskActivity::class.java).apply {
                             putExtra("taskId", task.id)
@@ -59,11 +62,13 @@ fun TaskItem(
             .padding(16.dp)
     ) {
         Column {
+            val priorityText =
+                Priority.entries.find { it.level == task.priority }?.name ?: "Unknown"
             Text(text = "ID: ${task.id}")
             Text(text = "Title: ${task.title}")
             Text(text = "Description: ${task.description}")
             Text(text = "Due Date: ${task.dueDate}")
-            Text(text = "Priority: ${task.priority}")
+            Text(text = "Priority: $priorityText")
             Text(text = "Completion: ${task.completionStatus}%")
         }
     }
