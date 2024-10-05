@@ -1,13 +1,14 @@
 # Taskzz - Task Management Application
 
 <p>
-  <img src="./assets/icon.webp" alt="Taskzz App Icon" width="100" style="background-color:white">
+  <img src="./screenshots/icon.webp" alt="Taskzz App Icon" width="100" style="background-color:white">
 </p>
 
 ## Download
 
-<a href="https://github.com/rohanudhwani/taskzz/raw/master/Taskzz.apk" download style="display: inline-block; padding: 10px 20px; margin: 10px 0; background-color: #007BFF; color: white; text-align: center; text-decoration: none; border-radius: 5px;">
-Download TaskManagerApp.zip</a>
+<a href="https://github.com/rohanudhwani/taskzz/raw/master/Taskzz.apk" class="download-button" download>
+        <img src="https://areraconvent.com/uploads/gallery/media/Download-for-Android.png" width="200" alt="Download for Android">
+</a>
 
 ## Project Overview
 
@@ -25,6 +26,26 @@ data management and UI components.
 - **Delete Tasks**: Users can remove tasks they no longer need.
 - **View Tasks**: A clear list view to see all tasks with their statuses and priorities.
 - **Dark Mode**: Support for dark mode to enhance usability in low-light environments.
+
+## Screenshots
+
+<table style="width: 100%; text-align: center;">
+  <tr>
+    <td style="padding: 10px;">
+      <h3>Task List</h3>
+      <img src="./screenshots/TasksScreen.jpeg" alt="Create Task Screenshot" width="300"/>
+    </td>
+    <td style="padding: 10px;">
+      <h3>Add Task</h3>
+      <img src="./screenshots/AddEditScreen.jpeg" alt="Task List Screenshot" width="300"/>
+    </td>
+    <td style="padding: 10px;">
+      <h3>Update Task</h3>
+      <img src="./screenshots/AddingTasks.gif" alt="Update Task Screenshot" width="300"/>
+    </td>
+  </tr>
+</table>
+
 
 ## Setup Instructions
 
@@ -76,26 +97,7 @@ Once the project is open, sync Gradle by clicking on **Sync Now** in the notific
   improves build times, and enhances maintainability. Each module can be developed, tested, and
   deployed independently, allowing for faster iterations and updates.
 
-## Screenshots
 
-<div style="display: flex; justify-content: space-around;">
-
-  <div style="margin: 10px;">
-    <h3>Task List</h3>
-    <img src="./screenshots/AddEditScreen.jpeg" alt="Task List Screenshot" width="300"/>
-  </div>
-
-  <div style="margin: 10px;">
-    <h3>Create Task</h3>
-    <img src="./screenshots/TasksScreen.jpeg" alt="Create Task Screenshot" width="300"/>
-  </div>
-
-  <div style="margin: 10px;">
-    <h3>Update Task</h3>
-    <img src="./screenshots/AddingTasks.gif" alt="Update Task Screenshot" width="300"/>
-  </div>
-
-</div>
 
 ## Contributing
 
