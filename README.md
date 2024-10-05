@@ -6,7 +6,7 @@
 
 ## Download
 
-<a href="https://github.com/rohanudhwani/taskzz/raw/master/Taskzz.apk" class="download-button" download>
+<a href="https://github.com/rohanudhwani/taskzz/raw/master/taskzz.apk" class="download-button" download>
         <img src="https://areraconvent.com/uploads/gallery/media/Download-for-Android.png" width="200" alt="Download for Android">
 </a>
 
