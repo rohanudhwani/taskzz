@@ -51,6 +51,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.common)
+    implementation(libs.core.ktx)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.runner)
+    testImplementation(libs.androidx.ui.test.junit4.android)
+    androidTestImplementation(libs.androidx.core.testing)
+    androidTestImplementation(libs.androidx.foundation.layout.android)
+    androidTestImplementation(libs.androidx.foundation.layout.android)
     kapt("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
@@ -67,6 +74,17 @@ dependencies {
     implementation("com.google.android.material:material:1.6.0-alpha01")
     implementation("androidx.compose.ui:ui:1.7.3")
 //    implementation("androidx.compose.ui:ui-tooling-preview:1.7.3")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.0.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation("net.bytebuddy:byte-buddy:1.12.9")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
 
 
 }

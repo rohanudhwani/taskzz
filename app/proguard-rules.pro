@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep Mockito classes
+-keep class org.mockito.** { *; }
+-keep interface org.mockito.** { *; }
+
+# Keep Byte Buddy classes
+-keep class net.bytebuddy.** { *; }
