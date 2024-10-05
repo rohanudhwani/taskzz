@@ -62,4 +62,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.compose.material3:material3:1.3.0")
+    implementation("com.google.android.material:material:1.6.0-alpha01")
+    implementation("androidx.compose.ui:ui:1.7.3")
+//    implementation("androidx.compose.ui:ui-tooling-preview:1.7.3")
+
+
 }

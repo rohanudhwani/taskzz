@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
@@ -21,6 +23,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import androidx.compose.material3.*
+
 
 @Composable
 fun TaskForm(
@@ -71,14 +75,20 @@ fun TaskForm(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text(text = "ID: $taskId")
+        Text(text = "ID: $taskId", color = MaterialTheme.colorScheme.onBackground)
 
         // Title TextField
         TextField(
             value = title,
             onValueChange = { title = it },
             label = { Text("Title") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
         )
 
         // Description TextField
@@ -86,13 +96,23 @@ fun TaskForm(
             value = description,
             onValueChange = { description = it },
             label = { Text("Description") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
         )
 
-        // Due Date TextField
+        // Due Date Button
         Button(
             onClick = { datePickerDialog.show() },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
             Text(text = "Due Date: ${dateFormatter.format(dueDate)}")
         }
@@ -100,7 +120,11 @@ fun TaskForm(
         // Priority DropdownMenu
         Button(
             onClick = { isDropdownExpanded = true },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
             // Display the current priority name
             val currentPriority = Priority.entries.find { it.level == priority }?.name ?: "Unknown"
@@ -118,19 +142,27 @@ fun TaskForm(
                         priority = priorityEnum.level // Set the priority level
                         isDropdownExpanded = false
                     },
-                    text = { Text(text = priorityEnum.name) } // Display the enum name
+                    text = { Text(text = priorityEnum.name) }
                 )
             }
         }
 
+        Text(
+            text = "Completion Status: ${completionStatus}%",
+            color = MaterialTheme.colorScheme.onBackground
+        )
 
-        Text(text = "Completion Status: ${completionStatus}%")
         // Completion Status Slider
         Slider(
             value = completionStatus.toFloat(),
             onValueChange = { completionStatus = it.toInt() },
             valueRange = 0f..100f,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.primary,
+                activeTrackColor = MaterialTheme.colorScheme.primary,
+                inactiveTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
         )
 
         // Save Task Button
@@ -146,9 +178,14 @@ fun TaskForm(
                 )
                 onSaveTask(task)
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
             Text(if (taskId != -1) "Update Task" else "Save Task")
         }
     }
 }
+

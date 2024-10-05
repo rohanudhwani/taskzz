@@ -9,6 +9,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,14 +49,13 @@ fun TaskItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(8.dp))
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
                         showDeleteDialog = true
                     },
                     onTap = {
-                        println("Rohan123: Task ID: $taskId, Priority: $taskPriority")
                         val intent = Intent(context, AddEditTaskActivity::class.java).apply {
                             putExtra("taskId", taskId)
                             putExtra("taskTitle", taskTitle)
@@ -74,12 +74,24 @@ fun TaskItem(
             val priorityText =
                 Priority.entries.find { it.level == taskPriority }?.name ?: "Unknown"
             val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            Text(text = "ID: $taskId")
-            Text(text = "Title: $taskTitle")
-            Text(text = "Description: $taskDescription")
-            Text(text = "Due Date: ${dateFormat.format(taskDueDate)}")
-            Text(text = "Priority: $priorityText")
-            Text(text = "Completion: $taskCompletionStatus%")
+            Text(
+                text = "ID: $taskId",
+                color = MaterialTheme.colorScheme.onSurface
+            ) // Use theme's onSurface color
+            Text(text = "Title: $taskTitle", color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = "Description: $taskDescription",
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Due Date: ${dateFormat.format(taskDueDate)}",
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(text = "Priority: $priorityText", color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = "Completion: $taskCompletionStatus%",
+                color = MaterialTheme.colorScheme.onSurface
+            )
         }
     }
 
