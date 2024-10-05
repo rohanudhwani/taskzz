@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +32,14 @@ fun TaskItem(
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    println("TaskItem initialized rohan123 with priority: ${task.id} :  ${task.priority}")
+
+    // Create variables for task properties
+    val taskId by rememberUpdatedState(newValue = task.id)
+    val taskTitle by rememberUpdatedState(newValue = task.title)
+    val taskDescription by rememberUpdatedState(newValue = task.description)
+    val taskDueDate by rememberUpdatedState(newValue = task.dueDate)
+    val taskPriority by rememberUpdatedState(newValue = task.priority)
+    val taskCompletionStatus by rememberUpdatedState(newValue = task.completionStatus)
 
     // Handle long press to show delete dialog
     Box(
@@ -45,15 +53,14 @@ fun TaskItem(
                         showDeleteDialog = true
                     },
                     onTap = {
-                        println("Priority rohan123 in TaskItem " + task.priority)
-                        // Navigate to AddEditTaskActivity with pre-filled task data on single tap
+                        println("Rohan123: Task ID: $taskId, Priority: $taskPriority")
                         val intent = Intent(context, AddEditTaskActivity::class.java).apply {
-                            putExtra("taskId", task.id)
-                            putExtra("taskTitle", task.title)
-                            putExtra("taskDescription", task.description)
-                            putExtra("taskDueDate", task.dueDate)
-                            putExtra("taskPriority", task.priority)
-                            putExtra("taskCompletionStatus", task.completionStatus)
+                            putExtra("taskId", taskId)
+                            putExtra("taskTitle", taskTitle)
+                            putExtra("taskDescription", taskDescription)
+                            putExtra("taskDueDate", taskDueDate)
+                            putExtra("taskPriority", taskPriority)
+                            putExtra("taskCompletionStatus", taskCompletionStatus)
                         }
                         context.startActivity(intent)
                     }
@@ -63,13 +70,13 @@ fun TaskItem(
     ) {
         Column {
             val priorityText =
-                Priority.entries.find { it.level == task.priority }?.name ?: "Unknown"
-            Text(text = "ID: ${task.id}")
-            Text(text = "Title: ${task.title}")
-            Text(text = "Description: ${task.description}")
-            Text(text = "Due Date: ${task.dueDate}")
+                Priority.entries.find { it.level == taskPriority }?.name ?: "Unknown"
+            Text(text = "ID: $taskId")
+            Text(text = "Title: $taskTitle")
+            Text(text = "Description: $taskDescription")
+            Text(text = "Due Date: $taskDueDate")
             Text(text = "Priority: $priorityText")
-            Text(text = "Completion: ${task.completionStatus}%")
+            Text(text = "Completion: $taskCompletionStatus%")
         }
     }
 

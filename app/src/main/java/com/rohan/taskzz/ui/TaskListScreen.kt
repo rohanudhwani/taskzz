@@ -39,7 +39,6 @@ fun TaskListScreen(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            println("taskList rohan123 " + taskList)
             items(taskList, key = { task -> task.id }) { task ->
                 TaskItem(
                     task = task,
