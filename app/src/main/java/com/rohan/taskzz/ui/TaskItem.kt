@@ -74,10 +74,10 @@ fun TaskItem(
             val priorityText =
                 Priority.entries.find { it.level == taskPriority }?.name ?: "Unknown"
             val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            Text(
-                text = "ID: $taskId",
-                color = MaterialTheme.colorScheme.onSurface
-            ) // Use theme's onSurface color
+//            Text(
+//                text = "ID: $taskId",
+//                color = MaterialTheme.colorScheme.onSurface
+//            ) // Use theme's onSurface color
             Text(text = "Title: $taskTitle", color = MaterialTheme.colorScheme.onSurface)
             Text(
                 text = "Description: $taskDescription",
